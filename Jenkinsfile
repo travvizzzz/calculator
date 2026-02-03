@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Pull code from your repository
-                git branch: 'main', url: 'https://github.com/your-repo/demo.git'
+                git branch: 'main', url: 'https://github.com/travvizzzz/calculator.git'
             }
         }
 
