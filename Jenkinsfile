@@ -1,54 +1,90 @@
-pipeline {
+pipeline{
     agent any
-
-    tools {
-        // Make sure Maven is installed on your Jenkins node
-        maven 'maven3.9'
-        jdk 'jdk21'
+    tools{
+        maven "maven3.9"
     }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                // Pull code from your repository
-                git branch: 'main', url: 'https://github.com/travvizzzz/calculator.git'
+    environment {
+            DOCKER_REPO = "bph/calculator-image"
+            APP_JAR = "target\\demo-0.0.1-SNAPSHOT.jar"
+            DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
+            DOCKER_HOST_PORT = "8082"
+    }
+    stages{
+        stage('Checkout'){
+            steps{
+                git branch: 'main', url: 'https://github.com/bhonepyaehmuee/Spring_html.git'
             }
         }
-
-        stage('Build') {
-            steps {
-                // Compile the project
+       stage('Build'){
+            steps{
                 sh 'mvn clean compile'
             }
-        }
-
-        stage('Test') {
-            steps {
-                // Run JUnit tests
+       }
+       stage('Test'){
+            steps{
                 sh 'mvn test'
             }
-            post {
-                always {
-                    // Archive test reports
-                    junit 'target/surefire-reports/*.xml'
+       }
+        stage('JaCoCo Report') {
+            steps {
+                // Publish JaCoCo HTML report in Jenkins
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'target/site/jacoco',
+                    reportFiles: 'index.html',
+                    reportName: 'JaCoCo Coverage'
+                ])
+            }
+        }
+        stage("Static Code Analysis (Checkstyle)") {
+            steps {
+                sh "mvn checkstyle:checkstyle"
+                publishHTML(target: [
+                    reportDir: 'target/site',
+                    reportFiles: 'checkstyle.html',
+                    reportName: 'Checkstyle Report'
+                ])
+            }
+        }
+      
+       stage('Build Jar'){
+           steps{
+                sh 'mvn clean package -DskipTests'
+           }
+       }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build Docker image and tag it with build number
+                    def imageTag = "${env.BUILD_NUMBER}"
+                    sh "docker build -t ${DOCKER_REPO}:${imageTag} ."
+                    sh "docker tag ${DOCKER_REPO}:${imageTag} ${DOCKER_REPO}:latest"
+                    env.IMAGE_TAG = imageTag
                 }
             }
         }
-
-        stage('Package') {
+        stage('Run Docker Container') {
             steps {
-                // Build the JAR
-                sh 'mvn package'
+                echo "Running container locally (port 8081)..."
+                sh """
+                docker stop calculator-container  true
+                docker rm calculator-container  true
+                docker run -d --name calculator-container -p 8082:8080 ${DOCKER_REPO}:${env.IMAGE_TAG}
+                """
             }
         }
     }
-
     post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed.'
-        }
-    }
+        always{
+                echo "✅ Pipeline finished."
+            }
+            success {
+                echo "Pipeline succeeded! App running at http://localhost:${env.DOCKER_HOST_PORT}/"
+            }
+            failure {
+                echo "Pipeline failed."
+            }
+          }
 }
