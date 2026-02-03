@@ -4,10 +4,10 @@ pipeline{
         maven "maven3.9"
     }
     environment {
-            DOCKER_REPO = "bph/calculator-image"
+            DOCKER_REPO = "calculator"
             APP_JAR = "target\\demo-0.0.1-SNAPSHOT.jar"
             DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
-            DOCKER_HOST_PORT = "8082"
+            DOCKER_HOST_PORT = "8081"
     }
     stages{
         stage('Checkout'){
@@ -71,7 +71,7 @@ pipeline{
                 sh """
                 docker stop calculator-container  true
                 docker rm calculator-container  true
-                docker run -d --name calculator-container -p 8082:8080 ${DOCKER_REPO}:${env.IMAGE_TAG}
+                docker run -d --name calculator-container -p 8081:8080 ${DOCKER_REPO}:${env.IMAGE_TAG}
                 """
             }
         }
