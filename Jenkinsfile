@@ -18,12 +18,13 @@ pipeline{
        stage('Build'){
             steps{
                 sh 'mvn clean compile'
-                junit 'target/surefire-reports/*.xml'
+
             }
        }
        stage('Test'){
             steps{
                 sh 'mvn test'
+               junit 'target/surefire-reports/*.xml'
             }
        }
         // stage('JaCoCo Report') {
