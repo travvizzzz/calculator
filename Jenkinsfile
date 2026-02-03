@@ -3,8 +3,8 @@ pipeline {
 
     tools {
         // Make sure Maven is installed on your Jenkins node
-        maven 'Maven-3.9.0' 
-        jdk 'OpenJDK-17'
+        maven 'maven3.9'
+        jdk 'jdk21'
     }
 
     stages {
