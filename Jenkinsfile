@@ -12,7 +12,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-                git branch: 'main', url: 'https://github.com/bhonepyaehmuee/Spring_html.git'
+                git branch: 'main', url: 'https://github.com/travvizzzz/calculator.git'
             }
         }
        stage('Build'){
