@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk
+FROM docker.io/eclipse-temurin:21-jdk
 WORKDIR /app
 LABEL maintainer="javaguides.net"
 ADD target/CalculatorProject-0.0.1-SNAPSHOT.jar calculator.jar
