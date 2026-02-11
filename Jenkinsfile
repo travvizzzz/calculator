@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_REPO = "calculator"
+        DOCKER_REPO = "hmcalculator"
         DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
         DOCKER_HOST_PORT = "8081"
     }
