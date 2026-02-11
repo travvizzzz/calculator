@@ -89,9 +89,19 @@ pipeline {
         }
         success {
             echo "🎉 Pipeline succeeded! App running at http://localhost:${env.DOCKER_HOST_PORT}/"
+            emailext(
+                to: 'htetmyat1105@gmail.com',
+                subject: 'Pipeline Email Test',
+                body: 'Pipeline email sent successfully ✅'
+            )
         }
         failure {
             echo "❌ Pipeline failed."
+            emailext(
+                to: 'htetmyat1105@gmail.com',
+                subject: 'Pipeline Email Test',
+                body: 'Pipeline email sent fail'
+            )
         }
     }
 }
