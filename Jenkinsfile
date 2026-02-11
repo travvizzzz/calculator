@@ -43,11 +43,14 @@ pipeline {
         stage("Static Code Analysis (Checkstyle)") {
             steps {
                 sh 'mvn checkstyle:checkstyle'
-                publishHTML([
-                    reportDir: 'target/site',
-                    reportFiles: 'checkstyle.html',
-                    reportName: 'Checkstyle Report'
-                ])
+              publishHTML(target: [
+    allowMissing: false,
+    alwaysLinkToLastBuild: true,
+    keepAll: true,
+    reportDir: 'target/site/jacoco',
+    reportFiles: 'index.html',
+    reportName: 'JaCoCo Coverage'
+])
             }
         }
 
