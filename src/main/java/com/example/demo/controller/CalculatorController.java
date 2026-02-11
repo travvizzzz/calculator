@@ -15,7 +15,7 @@ public class CalculatorController
 	@Autowired
 	private CalculatorService calculatorService;
 	
-	@GetMapping("/add")
+	@GetMapping("/sum")
 	public double add(@RequestParam double a, @RequestParam double b)
 	{
 		return calculatorService.add(a,b);
