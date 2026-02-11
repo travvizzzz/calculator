@@ -6,9 +6,9 @@ pipeline {
     }
 
     environment {
-        DOCKER_REPO = "hmcalculator"
+        DOCKER_REPO = "hm-calculator"
         DOCKER_CREDENTIALS_ID = "dockerhub-credentials"
-        DOCKER_HOST_PORT = "8081"
+        DOCKER_HOST_PORT = "7575"
     }
 
     stages {
@@ -72,9 +72,9 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 sh """
-                    docker stop calculator-container || true
-                    docker rm calculator-container || true
-                    docker run -d --name calculator-container -p 8081:8080 ${DOCKER_REPO}:${env.IMAGE_TAG}
+                    docker stop hm-calculator-container || true
+                    docker rm hm-calculator-container || true
+                    docker run -d --name hm-calculator-container -p 7575:8080 ${DOCKER_REPO}:${env.IMAGE_TAG}
                 """
             }
         }
