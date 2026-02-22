@@ -1,3 +1,4 @@
+# Use specific image version or digest
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 LABEL maintainer="javaguides.net"
