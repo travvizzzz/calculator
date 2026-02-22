@@ -8,6 +8,7 @@ class CalculatorProjectApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.print("hello");
 	}
 
 }
