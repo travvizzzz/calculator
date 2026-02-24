@@ -64,6 +64,12 @@
       <!-- Use a specific version if needed, otherwise Spring Boot manages it -->
       <version>2.5.0</version>
   </dependency>
+	<dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
 	</dependencies>
 
 	<build>
