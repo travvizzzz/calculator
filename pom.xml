@@ -65,11 +65,11 @@
       <version>2.5.0</version>
   </dependency>
 	<dependency>
-      <groupId>io.cucumber</groupId>
-      <artifactId>cucumber-java</artifactId>
-      <version>${cucumber.version}</version>
-      <scope>test</scope>
-    </dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-java</artifactId>
+    <version>7.23.0</version>
+    <scope>test</scope>
+</dependency>
 	</dependencies>
 
 	<build>
