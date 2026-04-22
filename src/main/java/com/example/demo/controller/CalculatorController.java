@@ -16,13 +16,8 @@ public class CalculatorController
 	private CalculatorService calculatorService;
 
 	
-<<<<<<< HEAD
-	@GetMapping("/sum")
-	public double add(@RequestParam double a, @RequestParam double b)
-=======
 	@GetMapping("/add")
 	public double add(@RequestParam int a, @RequestParam int b)
->>>>>>> 1ad0304 (update file)
 	{
 		return calculatorService.add(a,b);
 	}
