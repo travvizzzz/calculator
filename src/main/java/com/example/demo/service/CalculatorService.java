@@ -1,31 +1,25 @@
 package com.example.demo.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CalculatorService 
 {
-	public double add(double a, double b)
+	@Cacheable(value = "add")
+	public int add(int a, int b)
 	{
-		return a+b;
+		try {
+			System.out.println("loading...");
+			Thread.sleep(3000);
+			System.out.println("...end..");
+		}
+		
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		return a + b;
 	}
 	
-	public double subtract(double a, double b) 
-	{
-	    return a - b;
-	}
-
-	public double multiply(double a, double b)
-	{
-	     return a * b;
-	}
-
-	public double divide(double a, double b) 
-	{
-		if (b == 0) 
-		{
-	       throw new IllegalArgumentException("Cannot divide by zero");
-	     }
-	        return a / b;
-	}
+	
 }

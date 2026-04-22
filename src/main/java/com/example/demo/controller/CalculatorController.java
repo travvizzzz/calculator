@@ -9,34 +9,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.service.CalculatorService;
 
 @RestController
-@RequestMapping("/calculator")
+@RequestMapping("/api")
 public class CalculatorController 
 {
 	@Autowired
 	private CalculatorService calculatorService;
+
 	
+<<<<<<< HEAD
 	@GetMapping("/sum")
 	public double add(@RequestParam double a, @RequestParam double b)
+=======
+	@GetMapping("/add")
+	public double add(@RequestParam int a, @RequestParam int b)
+>>>>>>> 1ad0304 (update file)
 	{
 		return calculatorService.add(a,b);
 	}
 	
-	@GetMapping("/subtract")
-	public double subtract(@RequestParam double a,@RequestParam double b)
-	{
-		return calculatorService.subtract(a,b);
-	}
 	
-	@GetMapping("/multiply")
-	public double multiply(@RequestParam double a, @RequestParam double b)
-	{
-		return calculatorService.multiply(a,b);
-	}
-	
-	@GetMapping("/divide")
-	public double divide(@RequestParam double a, @RequestParam double b)
-	{
-		return calculatorService.divide(a,b);
-	}
 	
 }
