@@ -45,9 +45,12 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image') {
+       stage('Push to Docker Hub') {
             steps {
-                sh "docker push  htetmyatisgod/calculator:2.0"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'docker login -u $USER -p $PASS'
+                    sh 'docker push htetmyatisgod/calculator:2.0'
+                }
             }
         }
 
