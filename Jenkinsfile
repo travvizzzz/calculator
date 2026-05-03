@@ -6,8 +6,8 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = "hm-calculator"
-        DOCKER_HOST_PORT = "7575"
+        IMAGE_NAME = "htetmyatisgod/calculator"
+        IMAGE_TAG = "2.0"
     }
 
     stages {
@@ -26,10 +26,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    env.IMAGE_TAG = "${BUILD_NUMBER}"
-                    sh "docker build -t htetmyatisgod/calculator:2.0 ."
-                }
+                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
 
@@ -45,22 +42,18 @@ pipeline {
             }
         }
 
-       stage('Push to Docker Hub') {
+        stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh 'docker login -u $USER -p $PASS'
-                    sh 'docker push htetmyatisgod/calculator:2.0'
-                }
+                sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
             }
         }
 
-       stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes') {
             steps {
-                
-        withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]){
-          sh 'kubectl apply -f hazelcast.yaml'
-                  sh 'kubectl apply -f deployment.yaml'
-                  sh 'kubectl apply -f service.yaml'
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh "kubectl apply -f hazelcast.yaml"
+                    sh "kubectl apply -f deployment.yaml"
+                    sh "kubectl apply -f service.yaml"
                 }
             }
         }
@@ -70,11 +63,9 @@ pipeline {
         always {
             echo "✅ travviiz pipeline finished."
         }
-
         success {
             echo "🎉 SUCCESS: App deployed successfully!"
         }
-
         failure {
             echo "❌ FAILURE: Check logs."
         }
