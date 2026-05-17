@@ -8,4 +8,3 @@
 
     - name: Apply service
       shell: kubectl apply -f {{ playbook_dir }}/../service.yaml --validate=false
-	  
