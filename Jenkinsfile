@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-       stage('Push to Docker Hub') {
+        stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh 'docker login -u $USER -p $PASS'
@@ -53,9 +53,10 @@ pipeline {
                 }
             }
         }
-	stage('Deploy with Ansible') {
+
+        stage('Deploy with Ansible') {
             steps {
-                  withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''
                         export KUBECONFIG=$KUBECONFIG
                         ansible-playbook ansible-lab/playbook.yaml -i ansible-lab/inventory
@@ -64,7 +65,6 @@ pipeline {
             }
         }
     }
-   }
 
     post {
         always {
