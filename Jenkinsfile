@@ -47,7 +47,7 @@ pipeline {
 
        stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh 'docker login -u $USER -p $PASS'
                     sh 'docker push htetmyatisgod/calculator:2.0'
                 }
