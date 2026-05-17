@@ -54,10 +54,16 @@ pipeline {
             }
         }
 	stage('Deploy with Ansible') {
-    steps {
-        sh 'ansible-playbook ansible-lab/playbook.yaml -i ansible-lab/inventory'
+            steps {
+                  withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh '''
+                        export KUBECONFIG=$KUBECONFIG
+                        ansible-playbook ansible-lab/playbook.yaml -i ansible-lab/inventory
+                    '''
+                }
+            }
+        }
     }
-	}
    }
 
     post {
