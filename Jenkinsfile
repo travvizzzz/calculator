@@ -54,7 +54,7 @@ pipeline {
             }
         }
 
-      stage('Deploy to DEV') {
+     stage('Deploy to DEV') {
     steps {
         withCredentials([
             file(
@@ -64,9 +64,8 @@ pipeline {
         ]) {
             sh '''
             kubectl config current-context
-            kubectl get nodes
-            kubectl apply -f deployment-dev.yaml --validate=false
-            kubectl apply -f service.yaml --validate=false
+            kubectl apply -f deployment-dev.yaml --validate=false --insecure-skip-tls-verify=true
+            kubectl apply -f service.yaml --validate=false --insecure-skip-tls-verify=true
             '''
         }
     }
@@ -87,8 +86,8 @@ pipeline {
                     )
                 ]) {
                     sh '''
-                    kubectl apply -f deployment-prod.yaml
-                    kubectl apply -f service.yaml
+                   kubectl apply -f deployment-prod.yaml --validate=false --insecure-skip-tls-verify=true
+                    kubectl apply -f service.yaml --validate=false --insecure-skip-tls-verify=true
                     '''
                 }
             }
